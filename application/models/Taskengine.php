@@ -505,6 +505,13 @@ class Taskengine extends Hilton_Model
         return $this->db->get(self::DB_TASK_PINDUODUO)->row();
     }
 
+    function ge_liu(){
+        $this->db->where('buyer_id',null);
+        $this->db->where('end_time >=',date('Y-m-d H:i:s'));
+        $this->db->where('status',2);
+        $this->db->where('gmt_create',null);
+        return $this->db->get(self::DB_TASK_LIULIANG)->result();
+    }
     function get_operating_task_cnt($task_type, $user_id)
     {
         if (empty($task_type) || empty($user_id)) {

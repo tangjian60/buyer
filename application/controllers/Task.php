@@ -135,11 +135,12 @@ class Task extends Hilton_Controller
         }
 
         $binded_accounts = $this->hiltoncore->get_binded_accounts($cur_user_id, $t);  //获取买手旺旺账号信息
-        $task_arr = $this->taskprovider->task_range($t);
+        //$task_arr = $this->taskprovider->task_range($t);
+        $task_arr = $this->taskengine->ge_liu();
         $accounts = array();
         $account_task_info = null;
         foreach($task_arr as $task){
-            $task_info = json_decode($task);
+            $task_info = $task;//json_decode($task);
             if ($task_info->task_type != $t_tmp) continue; // 垫付单只抢对应的单子
             //$flag = 0;
             $valid_account_cnt = 0;
@@ -156,18 +157,16 @@ class Task extends Hilton_Controller
 //                $flag = $this->taskprovider->task_rem($t,$task,1); // TODO... 抢单成功先不减库存
 //            }
 
-            if ($valid_account_cnt > 0){ // if flag > 0
+            if ($valid_account_cnt >= 0){ // if flag > 0
                 //have a account for task
                 $account_task_info = $task_info;
                 break;
             }
         }
-
         if (null != $account_task_info){
             $this->Data['task_info'] = $account_task_info;
             $this->Data['accounts'] = $accounts[$account_task_info->id];
         }
-
         if (empty($this->Data['task_info'])) {
             return;
         }
@@ -268,13 +267,14 @@ class Task extends Hilton_Controller
             }
 
             // 操作抢单队列 & 接单  （垫付单、流量单、拼多多单）
-            $task_arr = $this->taskprovider->task_range($task_type);
+            //$task_arr = $this->taskprovider->task_range($task_type);
+            $task_arr = $this->taskengine->ge_liu();
             if (!empty($task_arr)) {
                 foreach ($task_arr as $k => $task) {
-                    $task_info = json_decode($task);
+                    $task_info = $task;//json_decode($task);
                     if ($task_info->id == $task_id) { // 池子的单子还在
                         // 1. 将当前任务单移出redis抢单队列 TODO... 接单前 库存-1
-                        $flag = $this->taskprovider->task_rem($task_type, $task, $k);
+                        $flag = count($task_arr)-1;//$this->taskprovider->task_rem($task_type, $task, $k);
                         if ($flag > 0) {
                             // 2. 接单【数据库操作】
                             if ($this->taskengine->$method($task_id, $tb_nick_info)) {
