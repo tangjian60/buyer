@@ -58,7 +58,7 @@ define('PLATFORM_TYPE_TAOBAO', 1);
 define('PLATFORM_TYPE_JD', 2);
 define('PLATFORM_TYPE_PINDUODUO', 3);
 define('PLATFORM_TYPE_AMAZON', 4);
-
+define('CDN_DOMAIN_TEMP', '//cdn.zcm889.com');
 //define('CDN_DOMAIN', '//cdn.dhl188.test.com');
 define('CDN_DOMAIN', 'http://buyc.com/');
 //define('CDN_BINARY_URL', '//cdn.dhl188.test.com/binary/');

@@ -152,7 +152,6 @@ class Task extends Hilton_Controller
                     break;
                 }
             }
-
 //            if ($valid_account_cnt > 0){
 //                $flag = $this->taskprovider->task_rem($t,$task,1); // TODO... 抢单成功先不减库存
 //            }

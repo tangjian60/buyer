@@ -15,7 +15,7 @@
                     接单淘宝账号：<span style="font-size:16px;color:orangered;"><?php echo $v->buyer_tb_nick; ?></span><br>
                     <?php
                     if ($v->status == Taskengine::TASK_STATUS_DCZ) {
-                        if ($v->cur_task_day > 1) {
+                        if (isset($v->cur_task_day) && $v->cur_task_day > 1) {
                             echo '下次做单时间：<span style="font-size:16px;color:orangered;margin:0 3px;">' . $v->next_start_time . '</span>';
                         } else {
                             echo '剩余做单时间：<span style="font-size:16px;color:orangered;margin:0 3px;">' . calc_task_remain_time($v->gmt_taking_task) . '</span>分钟';

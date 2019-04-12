@@ -36,7 +36,7 @@ class Taskengine extends Hilton_Model
     const TASK_STATUS_XTGB = 13;
     const TASK_STATUS_XTGB_DT = 14;
     const TASK_STATUS_SSZ = 20;
-
+    const TASK_JIES = 16;
     private static $TASK_STATUS = array(
         self::TASK_STATUS_DZF => "待支付",
         self::TASK_STATUS_DJD => "派单中",
@@ -54,6 +54,8 @@ class Taskengine extends Hilton_Model
         self::TASK_STATUS_XTGB => "商家审核拒绝，买家不操作，系统关闭订单",
         self::TASK_STATUS_XTGB_DT => "未及时操作关闭任务",
         self::TASK_STATUS_SSZ  => "申诉中",
+        self::TASK_JIES  => "待打款",
+
     );
 
     function __construct()
@@ -134,7 +136,6 @@ class Taskengine extends Hilton_Model
         if (empty($task_info) || $task_info->status != self::TASK_STATUS_DJD || strtotime($task_info->end_time) < time()) {
             return false;
         }
-
         $shop_info = $this->get_shop_info($task_info->shop_id);
         if (empty($shop_info) || $shop_info->status != STATUS_PASSED) {
             return false;
